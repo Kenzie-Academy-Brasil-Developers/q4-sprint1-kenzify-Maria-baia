@@ -3,15 +3,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.putPlaylist = exports.deleteSong = void 0;
 const configs_1 = require("../configs");
+const capitalizeSong_services_1 = require("../services/capitalizeSong.services");
 const deleteSong = (req, res) => {
     const { userAuthenticated } = req;
     const user = configs_1.USERS.find((u) => userAuthenticated.username === u.username);
     const { artist, song } = req.query;
-    const capitalizedSong = song
-        .toLowerCase()
-        .split(" ")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ");
+    const capitalizedSong = (0, capitalizeSong_services_1.capitalizeSong)(song);
     const artistPlaylist = user === null || user === void 0 ? void 0 : user.playlist[artist];
     const foundedSong = artistPlaylist.find((music) => music.title === capitalizedSong);
     if (foundedSong) {
@@ -53,11 +50,7 @@ const putPlaylist = (req, res) => {
     }
     else {
         const { artist, song } = req.query;
-        const capitalizedSong = song
-            .toLowerCase()
-            .split(" ")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" ");
+        const capitalizedSong = (0, capitalizeSong_services_1.capitalizeSong)(song);
         const artistPlaylist = user === null || user === void 0 ? void 0 : user.playlist[artist];
         const foundedSong = artistPlaylist.find((music) => music.title === capitalizedSong);
         if (foundedSong) {

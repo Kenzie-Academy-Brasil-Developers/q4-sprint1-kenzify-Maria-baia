@@ -4,6 +4,7 @@ import { Response } from "express";
 
 import { USERS } from "../configs";
 import * as types from "../types/createdTypes";
+import { capitalizeSong } from "../services/capitalizeSong.services";
 
 export const deleteSong = (req: any, res: Response) => {
   const { userAuthenticated } = req;
@@ -14,11 +15,7 @@ export const deleteSong = (req: any, res: Response) => {
 
   const { artist, song } = req.query;
 
-  const capitalizedSong = song
-    .toLowerCase()
-    .split(" ")
-    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+  const capitalizedSong = capitalizeSong(song);
 
   const artistPlaylist: any = user?.playlist[artist];
 
@@ -76,11 +73,7 @@ export const putPlaylist = (req: any, res: Response) => {
   } else {
     const { artist, song } = req.query;
 
-    const capitalizedSong = song
-      .toLowerCase()
-      .split(" ")
-      .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
+    const capitalizedSong = capitalizeSong(song);
 
     const artistPlaylist: any = user?.playlist[artist];
 
